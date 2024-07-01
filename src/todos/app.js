@@ -1,8 +1,8 @@
-import html from './app.html?raw';
+import html from './app.html?raw'; 
 import todoStore, { Filters } from '../store/todo.store';
 import { renderTodos, renderPending } from './use-cases';
 
-//Referencias para mantener nuestros strings
+//Referencias del HTML para mantener nuestros strings
 const ElementIds = {
     ClearCompletedButton: '.clear-completed',
     TodoList: '.todo-list',
@@ -12,9 +12,10 @@ const ElementIds = {
 }
 /**
  * 
- * @param {String} elementId 
+ * @param {String} elementId Elemento en el que vamos a renderizar la aplicación
  */
 
+//Función que creará la aplicación - lo que queremos renderizar en pantalla
 export const App = ( elementId ) => {
 
     const displayTodos = () => {
@@ -40,10 +41,14 @@ export const App = ( elementId ) => {
     const todoListUL = document.querySelector( ElementIds.TodoList);
     const clearCompletedButton = document.querySelector( ElementIds.ClearCompletedButton);
     const filtersLIs = document.querySelectorAll( ElementIds.TodoFilters );
+    //SelectorAll porque necesitamos todos los TodoFilters, no solo uno 
 
     //Listeners
+    //keyup: vamos a escuchar cuando la persona presiona y suelta una tecla.
     newDescriptionInput.addEventListener('keyup', (event) => {
-        if( event.keyCode !== 13 ) return;
+        //El 13 es el código de la tecla enter. 
+        if( event.keyCode !== 13 ) return; //Solo si es enter, se continua la función
+        //El .trim quita los espacios no usados del inicio y del final 
         if( event.target.value.trim().length === 0 ) return;
 
         todoStore.addTodo(event.target.value);
@@ -57,6 +62,7 @@ export const App = ( elementId ) => {
         displayTodos();
     });
 
+    //Eliminar un todo
     todoListUL.addEventListener('click', (event) => {
         const isDestroyElement = event.target.className === 'destroy';
         const element = event.target.closest('[data-id]');
@@ -75,9 +81,10 @@ export const App = ( elementId ) => {
     filtersLIs.forEach( element => {
 
         element.addEventListener('click', (element) => {
-            filtersLIs.forEach( el => el.classList.remove('selected') );
+            filtersLIs.forEach( el => el.classList.remove('selected') );//Vamos a eliminar de todos los elementos el class selected
             element.target.classList.add('selected');
 
+            //Saber el valor del boton al que hacemos click
             switch(element.target.text ){
                 case 'Todos':
                     todoStore.setFilter(Filters.All)

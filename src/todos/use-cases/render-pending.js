@@ -12,5 +12,6 @@ export const renderPending = ( elementId) => {
         throw new Error(`Element ${elementId} not found`);
 
     element.innerHTML = todoStore.getTodos( Filters.Pending ).length;
+    //Esto va a regresar un arreglo, y por eso ponemos el .length. Así sabemos cuántas tareas hay pendientes
     
 }
